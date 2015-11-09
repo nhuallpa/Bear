@@ -1,0 +1,61 @@
+section(id="RegisterApp")
+    header(id="header")
+        h1= title
+    section(id="main")
+        p Welcome to #{title}
+        ul(id="subjectList")
+script(type="text/template", id="item-template").
+    <div class="view">
+        <div class="code"><span><%-code%></span></div>
+        <div class="name"><span><%-name%></span></div>
+        <div class="inscripciones"><a href="/subject/<%-code%>/edit">Ver</a></div>
+    </div>
+script(type="text/javascript").
+    var app = {};
+    app.Subject = Backbone.Model.extend({
+        default: {
+            code: '00',
+            name: '',
+            description: 'description',
+            quota: 0
+        }
+    });
+
+    app.SubjectList = Backbone.Collection.extend({
+        model: app.Subject,
+        localStorage: new Store("backbone-subjects")
+    });
+
+    app.subjectList = new app.SubjectList();
+
+    app.SubjectView = Backbone.View.extend({
+        tagName: 'li',
+        template: _.template($('#item-template').html()),
+        render: function(){
+            this.$el.html(this.template(this.model.toJSON()));
+            return this;
+        }
+    });
+
+    app.AppView = Backbone.View.extend({
+        el: '#RegisterApp',
+        initialize: function(){
+
+
+            var matematica = new app.Subject({code:'01', name:'Matematica'});
+            var fisica = new app.Subject({code:'02', name:'fisica'});
+
+            app.subjectList.on('add', this.addOne, this);
+
+
+            app.subjectList.add(matematica);
+            app.subjectList.add(fisica);
+
+        },
+        addOne: function(subject){
+            var view = new app.SubjectView({model: subject});
+            $('#subjectList').append(view.render().el);
+        }
+    });
+
+    var appView = new app.AppView();
