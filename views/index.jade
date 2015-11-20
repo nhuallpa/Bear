@@ -8,7 +8,7 @@ script(type="text/template", id="item-template").
     <div class="view">
         <div class="code"><span><%-code%></span></div>
         <div class="name"><span><%-name%></span></div>
-        <div class="inscripciones"><a href="/subject/<%-code%>/edit">Ver</a></div>
+        <div class="inscripciones"><a href="/subject/<%-code%>/edit">Ver Inscriptos</a></div>
     </div>
 script(type="text/javascript").
     var app = {};
@@ -23,7 +23,7 @@ script(type="text/javascript").
 
     app.SubjectList = Backbone.Collection.extend({
         model: app.Subject,
-        localStorage: new Store("backbone-subjects")
+        url: '/subjects/'
     });
 
     app.subjectList = new app.SubjectList();
@@ -40,22 +40,22 @@ script(type="text/javascript").
     app.AppView = Backbone.View.extend({
         el: '#RegisterApp',
         initialize: function(){
-
-
-            var matematica = new app.Subject({code:'01', name:'Matematica'});
-            var fisica = new app.Subject({code:'02', name:'fisica'});
-
-            app.subjectList.on('add', this.addOne, this);
-
-
-            app.subjectList.add(matematica);
-            app.subjectList.add(fisica);
-
+            app.subjectList.on('add', this.render, this);
+            app.subjectList.on("sync", this.render2, this);
+            app.subjectList.fetch();
         },
-        addOne: function(subject){
+        render: function(subject){
+            console.log(subject);
+            console.log(app.subjectList.toJSON());
             var view = new app.SubjectView({model: subject});
             $('#subjectList').append(view.render().el);
+        },
+        render2: function() {
+            console.log(app.subjectList.toJSON());
         }
+
     });
 
     var appView = new app.AppView();
+
+

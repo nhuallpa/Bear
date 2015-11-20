@@ -1,13 +1,22 @@
 /**
  * Created by root on 08/11/15.
  */
+var Backbone = require('backbone');
+var Subscriber = require('./subscriber');
 
-function Subject(code, name, description, quota) {
-    this.code = code;
-    this.name = name;
-    this.description = description;
-    this.quota = quota;
-    this.registeredStudent = new Array();
-}
+Subject = Backbone.Model.extend({
+    default: {
+        code: '00',
+        name: '',
+        description: 'description',
+        quota: 0,
+        registeredStudent: []
+    },
+    doRegistation: function (padron, firstName, lastName) {
+      var aSubscriber = new Subscriber({padron: padron, firstName: firstName, lastName: lastName});
+      this.registeredStudent.push(aSubscriber);
+      console.log(this.registeredStudent);
+    }
+});
 
 module.exports = Subject;

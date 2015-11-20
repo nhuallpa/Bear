@@ -1,0 +1,15 @@
+//   Created by root on 19/11/15.
+
+block content
+    h1 Inscribite a #{code} - #{name}
+    form(name="add-student", method="post" action="/subscriber")
+        div.input
+            input(type="hidden", name="codeSubject" id="codeSubject" maxlength="60") #{code}
+            span.label Nombre
+            input(type="text", name="firstname" id="firstname" maxlength="60")
+            span.label Apellido
+            input(type="text", name="lastname" id="lastname" maxlength="60")
+            span.label Padron
+            input(type="text", name="padron" id="padron" maxlength="5")
+        div.actions
+            input(type="submit", value="Confirmar")
