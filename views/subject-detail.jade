@@ -1,19 +1,47 @@
 //
    Created by root on 09/11/15.
-section(id="RegisterApp")
+section(id="SubjectDetail")
     header(id="header")
         h1 Listado de Inscriptos
     section(id="main")
         p #{code} - #{name}
-        ul(id="studentList")
+        ul(id="subscriberList")
         a(id="new-student", class="new-student", href="/subscriber?code=#{code}") Nuevo Estudiante
 script(type="text/template", id="item-template").
     <div class="view">
-        <div class="padron"><span><%-code%></span></div>
-        <div class="firstname"><span><%-firstname%></span></div>
-        <div class="lastname"><span><%-lastname%></span></div>
+        <div class="padron"><span><%-padron%></span></div>
+        <div class="firstname"><span><%-firstName%></span></div>
+        <div class="lastname"><span><%-lastName%></span></div>
     </div>
 script(type="text/javascript").
     var app={};
+    app.SubscriberList = Backbone.Collection.extend({
+        model: Subscriber,
+        url: '/json/subject/#{code}/subscribers'
+    });
+
+    app.subscriberList = new app.SubscriberList();
+
+    app.SubscriberView = Backbone.View.extend({
+        tagName: 'li',
+        template: _.template($('#item-template').html()),
+        render: function () {
+            this.$el.html(this.template(this.model.toJSON()));
+            return this;
+        }
+    });
 
 
+    app.AppView = Backbone.View.extend({
+        el: '#SubjectDetail',
+        initialize: function () {
+            app.subscriberList.on('add', this.render, this);
+            app.subscriberList.fetch();
+        },
+        render: function (subscriber) {
+            var view = new app.SubscriberView({model: subscriber});
+            $('#subscriberList').append(view.render().el);
+        },
+    });
+
+    var appView = new app.AppView();

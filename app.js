@@ -54,12 +54,15 @@ app.configure('production', function(){
 
 app.get('/', routes.index);
 
-app.get('/subject/:code/edit', routes.subjectDetail);
+app.get('/subject/:code/subscribers', routes.subjectDetail);
+
+app.get('/json/subject/:code/subscribers', routes.subjectSubscriberAll);
 
 app.get('/subscriber', routes.subscriber);
+
 app.post('/subscriber', routes.addSubscriber);
 
-app.get('/subjects/', routes.subjectAll);
+app.get('/json/subjects/', routes.subjectAll);
 
 
 

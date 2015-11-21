@@ -8,22 +8,15 @@ script(type="text/template", id="item-template").
     <div class="view">
         <div class="code"><span><%-code%></span></div>
         <div class="name"><span><%-name%></span></div>
-        <div class="inscripciones"><a href="/subject/<%-code%>/edit">Ver Inscriptos</a></div>
+        <div class="inscripciones"><a href="/subject/<%-code%>/subscribers">Ver Inscriptos</a></div>
     </div>
 script(type="text/javascript").
     var app = {};
-    app.Subject = Backbone.Model.extend({
-        default: {
-            code: '00',
-            name: '',
-            description: 'description',
-            quota: 0
-        }
-    });
+
 
     app.SubjectList = Backbone.Collection.extend({
-        model: app.Subject,
-        url: '/subjects/'
+        model: Subject,
+        url: '/json/subjects/'
     });
 
     app.subjectList = new app.SubjectList();
