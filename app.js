@@ -19,8 +19,8 @@ function initializeDomain() {
 
   cache.put('subjectList', new Array());
 
-  var matematica = new Subject({code:"66", name:"Matematica"});
-  var fisica = new Subject({code:"63", name:"Fisica"});
+  var matematica = new Subject({code:"66", name:"Matematica", quota: 10});
+  var fisica = new Subject({code:"63", name:"Fisica", quota: 10});
 
   cache.get('subjectList').push(matematica);
   cache.get('subjectList').push(fisica);
@@ -62,7 +62,7 @@ app.get('/subscriber', routes.subscriber);
 
 app.post('/subscriber', routes.addSubscriber);
 
-app.get('/json/subjects/', routes.subjectAll);
+app.get('/json/subjects', routes.subjectAll);
 
 
 

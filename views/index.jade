@@ -3,11 +3,17 @@ section(id="RegisterApp")
         h1= title
     section(id="main")
         p Welcome to #{title}
+        div(class="table-header")
+            div(class="code-col") C&oacute;digo
+            div(class="name-col") Nombre de Materia
+            div(class="quota-col") Cupos Disponibles
+            div(class="editar-col") Operar
         ul(id="subjectList")
 script(type="text/template", id="item-template").
     <div class="view">
         <div class="code"><span><%-code%></span></div>
         <div class="name"><span><%-name%></span></div>
+        <div class="quota"><span><%-quota%></span></div>
         <div class="inscripciones"><a href="/subject/<%-code%>/subscribers">Ver Inscriptos</a></div>
     </div>
 script(type="text/javascript").
@@ -16,7 +22,7 @@ script(type="text/javascript").
 
     app.SubjectList = Backbone.Collection.extend({
         model: Subject,
-        url: '/json/subjects/'
+        url: '/json/subjects'
     });
 
     app.subjectList = new app.SubjectList();
@@ -38,8 +44,6 @@ script(type="text/javascript").
             app.subjectList.fetch();
         },
         render: function(subject){
-            console.log(subject);
-            console.log(app.subjectList.toJSON());
             var view = new app.SubjectView({model: subject});
             $('#subjectList').append(view.render().el);
         },

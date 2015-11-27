@@ -5,8 +5,13 @@ section(id="SubjectDetail")
         h1 Listado de Inscriptos
     section(id="main")
         p #{code} - #{name}
+        div(class="table-header")
+            div(class="padron-col") Padron
+            div(class="fistname-col") Nombre
+            div(class="lastname-col") Apellido
         ul(id="subscriberList")
         a(id="new-student", class="new-student", href="/subscriber?code=#{code}") Nuevo Estudiante
+        a(id="volver", class="volver-button", href="/") Volver
 script(type="text/template", id="item-template").
     <div class="view">
         <div class="padron"><span><%-padron%></span></div>

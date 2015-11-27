@@ -18,6 +18,7 @@ Subject = Backbone.Model.extend({
           this.registeredStudent = new Array();
       }
       this.registeredStudent.push(aSubscriber);
+      this.quota = this.quota - 1
       console.log(this.registeredStudent);
     }
 });
