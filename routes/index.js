@@ -60,10 +60,11 @@ exports.addSubscriber = function (req, res) {
   var lastName = req.body.lastname;
   var padron = req.body.padron;
   var codSubject = req.body.codeSubject;
-  var subjectList = cache.get('subjectList');
 
-  var subject = null;
+  var subjectList = cache.get('subjectList');
   var name = "";
+
+
   subjectList.forEach(function (aSubject){
     if (codSubject == aSubject.get("code")) {
       aSubject.doRegistation(padron, firstName, lastName);

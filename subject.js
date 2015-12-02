@@ -14,7 +14,7 @@ Subject = Backbone.Model.extend({
     },
     doRegistation: function (padron, firstName, lastName) {
       var aSubscriber = new Subscriber({padron: padron, firstName: firstName, lastName: lastName});
-      if (typeof this.registeredStudent == "undefined") {
+      if (typeof this.registeredStudent === 'undefined') {
           this.registeredStudent = new Array();
       }
       this.registeredStudent.push(aSubscriber);
