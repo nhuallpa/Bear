@@ -4,7 +4,7 @@ block content
     h1 Inscribite a #{code} - #{name}
     form(name="add-student", method="post" action="/subscriber")
         div.input
-            input(type="hidden", name="codeSubject" id="codeSubject" maxlength="60") #{code}
+            input(type="hidden", name="codeSubject" id="codeSubject" maxlength="60" value="#{code}")
             span.label Nombre
             input(type="text", name="firstname" id="firstname" maxlength="60")
             span.label Apellido

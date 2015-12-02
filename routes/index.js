@@ -37,20 +37,22 @@ exports.subscriber = function (req, res) {
 
 exports.addSubscriber = function (req, res) {
 
-  var firstName = req.query.firstname;
-  var lastName = req.query.lastname;
-  var padron = req.query.padron;
-  var codSubject = req.query.codeSubject;
+  var firstName = req.body.firstname;
+  var lastName = req.body.lastname;
+  var padron = req.body.padron;
+  var codSubject = req.body.codeSubject;
 
+  var name = "";
   var subject = null;
+  subjectList = cache.get('subjectList');
   subjectList.forEach(function (aSubject){
-    if (code == aSubject.get("code")) {
-      subject = aSubject;
+    if (codSubject == aSubject.get("code")) {
+      aSubject.doRegistation(padron, firstName, lastName);
+      name = aSubject.get("name");
     }
   });
-  subjectList.get
 
-  res.render('subject-detail', {name: name, code: code});
+  res.render('subject-detail', {name: name, code: codSubject});
 }
 
 exports.subjectAll = function (req, res) {
