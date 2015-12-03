@@ -3,14 +3,16 @@
 block content
     h1 Inscribite a #{code} - #{name}
     form(name="add-student", method="post" action="/subscriber")
-        div.input
-            input(type="hidden", name="codeSubject" id="codeSubject" maxlength="60" value="#{code}")
-            span.label Nombre
-            input(type="text", name="firstname" id="firstname" maxlength="60")
-            span.label Apellido
-            input(type="text", name="lastname" id="lastname" maxlength="60")
-            span.label Padron
-            input(type="text", name="padron" id="padron" maxlength="5")
-        div.actions
-            input(type="submit", value="Confirmar")
-    a(id="volver", class="volver-button", href="/subject/#{code}/subscribers") Volver
+        input(type="hidden", name="codeSubject", id="codeSubject", maxlength="60", value="#{code}")
+        div(class="form-group")
+            label(for="firstname") Nombre
+            input(type="text", class="form-control", name="firstname", id="firstname", maxlength="60", placeholder="Nombre")
+        div(class="form-group")
+            label(for="lastname") Apellido
+            input(type="text", class="form-control", name="lastname", id="lastname", maxlength="60", placeholder="Apellido")
+        div(class="form-group")
+            label(for="padron") Padron
+            input(type="text", class="form-control", name="padron", id="padron", maxlength="5", placeholder="Padron")
+
+        input(type="submit", class="btn btn-primary", value="Comfirmar")
+        a(role="button", class="btn btn-default", href="/subject/#{code}/subscribers") Volver

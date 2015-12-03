@@ -3,19 +3,19 @@ section(id="RegisterApp")
         h1= title
     section(id="main")
         p Welcome to #{title}
-        div(class="table-header")
-            div(class="code-col") C&oacute;digo
-            div(class="name-col") Nombre de Materia
-            div(class="quota-col") Cupos Disponibles
-            div(class="editar-col") Operar
-        ul(id="subjectList")
+        table(class="table table-striped")
+            thead
+                th C&oacute;digo
+                th Nombre de Materia
+                th Cupos Disponibles
+                th Operar
+            tbody(id="subjectList")
+
 script(type="text/template", id="item-template").
-    <div class="view">
-        <div class="code"><span><%-code%></span></div>
-        <div class="name"><span><%-name%></span></div>
-        <div class="quota"><span><%-quota%></span></div>
-        <div class="inscripciones"><a href="/subject/<%-code%>/subscribers">Ver Inscriptos</a></div>
-    </div>
+        <td><%-code%></td>
+        <td><%-name%></td>
+        <td><%-quota%></td>
+        <td><a href="/subject/<%-code%>/subscribers">Ver Inscriptos</a></td>
 script(type="text/javascript").
     var app = {};
 
@@ -28,7 +28,7 @@ script(type="text/javascript").
     app.subjectList = new app.SubjectList();
 
     app.SubjectView = Backbone.View.extend({
-        tagName: 'li',
+        tagName: 'tr',
         template: _.template($('#item-template').html()),
         render: function(){
             this.$el.html(this.template(this.model.toJSON()));
@@ -40,15 +40,11 @@ script(type="text/javascript").
         el: '#RegisterApp',
         initialize: function(){
             app.subjectList.on('add', this.render, this);
-            app.subjectList.on("sync", this.render2, this);
             app.subjectList.fetch();
         },
         render: function(subject){
             var view = new app.SubjectView({model: subject});
             $('#subjectList').append(view.render().el);
-        },
-        render2: function() {
-            console.log(app.subjectList.toJSON());
         }
 
     });

@@ -5,19 +5,20 @@ section(id="SubjectDetail")
         h1 Listado de Inscriptos
     section(id="main")
         p #{code} - #{name}
-        div(class="table-header")
-            div(class="padron-col") Padron
-            div(class="fistname-col") Nombre
-            div(class="lastname-col") Apellido
-        ul(id="subscriberList")
-        a(id="new-student", class="new-student", href="/subscriber?code=#{code}") Nuevo Estudiante
-        a(id="volver", class="volver-button", href="/") Volver
+
+        table(class="table table-striped")
+            thead
+                th Padron
+                th Nombre
+                th Apellido
+            tbody(id="subscriberList")
+
+        a(role="button", class="btn btn-primary", href="/subscriber?code=#{code}") Nuevo Estudiante
+        a(role="button", class="btn btn-default", href="/") Volver
 script(type="text/template", id="item-template").
-    <div class="view">
-        <div class="padron"><span><%-padron%></span></div>
-        <div class="firstname"><span><%-firstName%></span></div>
-        <div class="lastname"><span><%-lastName%></span></div>
-    </div>
+    <td><%-padron%></td>
+    <td><%-firstName%></td>
+    <td><%-lastName%></td>
 script(type="text/javascript").
     var app={};
     app.SubscriberList = Backbone.Collection.extend({
@@ -28,7 +29,7 @@ script(type="text/javascript").
     app.subscriberList = new app.SubscriberList();
 
     app.SubscriberView = Backbone.View.extend({
-        tagName: 'li',
+        tagName: 'tr',
         template: _.template($('#item-template').html()),
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
