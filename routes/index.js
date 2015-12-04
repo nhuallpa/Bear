@@ -31,7 +31,7 @@ exports.subjectSubscriberAll = function (req, res) {
 exports.subjectDetail = function (req, res) {
   var name = "";
   var code = req.params.code;
-  subjectList = cache.get('subjectList');
+  var subjectList = cache.get('subjectList');
   subjectList.forEach(function (subject){
     if (code == subject.get("code")) {
       name = subject.get("name");
@@ -45,7 +45,7 @@ exports.subscriber = function (req, res) {
 
   var name = "";
   var code = req.query.code
-  subjectList = cache.get('subjectList');
+  var subjectList = cache.get('subjectList');
   subjectList.forEach(function (subject){
     if (code == subject.get("code")) {
       name = subject.get("name");
@@ -64,14 +64,53 @@ exports.addSubscriber = function (req, res) {
   var subjectList = cache.get('subjectList');
   var name = "";
 
+  var mensaje = "";
+
+  subjectList.forEach(function (subject){
+    if (code == subject.get("code")) {
+      name = subject.get("name");
+    }
+  });
+
 
   subjectList.forEach(function (aSubject){
     if (codSubject == aSubject.get("code")) {
-      aSubject.doRegistation(padron, firstName, lastName);
-      name = aSubject.get("name");
+      try {
+        aSubject.doRegistation(padron, firstName, lastName);
+        name = aSubject.get("name");
+      } catch (ex) {
+        console.log(ex);
+        mensaje = ex.message;
+      }
     }
   });
-  res.render('subject-detail', {name: name, code: codSubject});
+  if (mensaje != "") {
+    res.render('student-register', {name: name, code: codSubject, msgErr: mensaje});
+  } else {
+    res.render('subject-detail', {name: name, code: codSubject});
+  }
+
+}
+
+exports.deleteSubscriber = function (req, res) {
+  var padron = req.params.padron;
+  var codeSubject = req.params.code;
+
+  var subjectList = cache.get('subjectList');
+
+  subjectList.forEach(function (aSubject){
+    if (codeSubject == aSubject.get("code")) {
+      try {
+        aSubject.deleteSubscriber(padron);
+        name = aSubject.get("name");
+      } catch (ex) {
+        console.log(ex);
+      }
+
+    }
+  });
+
+  res.render('subject-detail', {name: name, code: codeSubject});
 }
 
 exports.subjectAll = function (req, res) {

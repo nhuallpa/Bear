@@ -2,6 +2,9 @@
 
 block content
     h1 Inscribite a #{code} - #{name}
+    #msgErr
+    if msgErr
+        div(class="alert alert-danger", role="alert") #{msgErr}
     form(name="add-student", method="post" action="/subscriber")
         input(type="hidden", name="codeSubject", id="codeSubject", maxlength="60", value="#{code}")
         div(class="form-group")

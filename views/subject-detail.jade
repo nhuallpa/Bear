@@ -2,15 +2,14 @@
    Created by root on 09/11/15.
 section(id="SubjectDetail")
     header(id="header")
-        h1 Listado de Inscriptos
+        h1 Listado de Inscriptos a #{code} - #{name}
     section(id="main")
-        p #{code} - #{name}
-
         table(class="table table-striped")
             thead
                 th Padron
                 th Nombre
                 th Apellido
+                th Operaciones
             tbody(id="subscriberList")
 
         a(role="button", class="btn btn-primary", href="/subscriber?code=#{code}") Nuevo Estudiante
@@ -19,6 +18,7 @@ script(type="text/template", id="item-template").
     <td><%-padron%></td>
     <td><%-firstName%></td>
     <td><%-lastName%></td>
+    <td><a href="/subject/#{code}/subscriber/<%-padron%>/delete" >Eliminar</a></td>
 script(type="text/javascript").
     var app={};
     app.SubscriberList = Backbone.Collection.extend({

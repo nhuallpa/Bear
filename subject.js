@@ -17,9 +17,44 @@ Subject = Backbone.Model.extend({
       if (typeof this.registeredStudent === 'undefined') {
           this.registeredStudent = new Array();
       }
-      this.registeredStudent.push(aSubscriber);
-      this.quota = this.quota - 1
-      console.log(this.registeredStudent);
+      if (!this.existSubscriberByPadron(padron)) {
+          this.registeredStudent.push(aSubscriber);
+          this.set({quota: this.get("quota") - 1});
+      } else {
+          throw new Error('El suscriptor ya existe');
+      }
+    },
+
+    deleteSubscriber: function (padron) {
+        var indexFound = -1;
+        if (typeof this.registeredStudent !== 'undefined') {
+            this.registeredStudent.forEach(function(aSubscriber, index) {
+                if (aSubscriber.get("padron") == padron) {
+                    indexFound = index;
+                }
+            });
+            if (indexFound > -1) {
+                this.registeredStudent.splice(indexFound, 1);
+                this.set({quota: this.get("quota") + 1});
+            } else {
+                throw new Error('El suscriptor no existe');
+            }
+        }
+    },
+    existSubscriberByPadron: function (padron) {
+        var indexFound = -1;
+        if (typeof this.registeredStudent !== 'undefined') {
+            this.registeredStudent.forEach(function(aSubscriber, index) {
+                if (aSubscriber.get("padron") == padron) {
+                    indexFound = index;
+                }
+            });
+            if (indexFound > -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 });
 
