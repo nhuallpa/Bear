@@ -67,7 +67,7 @@ exports.addSubscriber = function (req, res) {
   var mensaje = "";
 
   subjectList.forEach(function (subject){
-    if (code == subject.get("code")) {
+    if (codSubject == subject.get("code")) {
       name = subject.get("name");
     }
   });
@@ -85,7 +85,7 @@ exports.addSubscriber = function (req, res) {
     }
   });
   if (mensaje != "") {
-    res.render('student-register', {name: name, code: codSubject, msgErr: mensaje});
+    res.render('student-register', {name: name, code: codSubject, firstname: firstName, lastname: lastName, padron: padron, msgErr: mensaje});
   } else {
     res.render('subject-detail', {name: name, code: codSubject});
   }

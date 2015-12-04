@@ -1,12 +1,6 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/**
- * Created by nestor on 20/11/15.
- */
-
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(  require,module,exports){
 var Subscriber = require('./subscriber');
 var Subject = require('./subject');
-
-
 },{"./subject":5,"./subscriber":6}],2:[function(require,module,exports){
 (function (global){
 //     Backbone.js 1.2.3
@@ -12680,12 +12674,51 @@ Subject = Backbone.Model.extend({
         name: '',
         description: 'description',
         quota: 0,
-        registeredStudent: []
+        registeredStudent: new Array()
     },
     doRegistation: function (padron, firstName, lastName) {
       var aSubscriber = new Subscriber({padron: padron, firstName: firstName, lastName: lastName});
-      this.registeredStudent.push(aSubscriber);
-      console.log(this.registeredStudent);
+      if (typeof this.registeredStudent === 'undefined') {
+          this.registeredStudent = new Array();
+      }
+      if (!this.existSubscriberByPadron(padron)) {
+          this.registeredStudent.push(aSubscriber);
+          this.set({quota: this.get("quota") - 1});
+      } else {
+          throw new Error('El suscriptor ya existe');
+      }
+    },
+
+    deleteSubscriber: function (padron) {
+        var indexFound = -1;
+        if (typeof this.registeredStudent !== 'undefined') {
+            this.registeredStudent.forEach(function(aSubscriber, index) {
+                if (aSubscriber.get("padron") == padron) {
+                    indexFound = index;
+                }
+            });
+            if (indexFound > -1) {
+                this.registeredStudent.splice(indexFound, 1);
+                this.set({quota: this.get("quota") + 1});
+            } else {
+                throw new Error('El suscriptor no existe');
+            }
+        }
+    },
+    existSubscriberByPadron: function (padron) {
+        var indexFound = -1;
+        if (typeof this.registeredStudent !== 'undefined') {
+            this.registeredStudent.forEach(function(aSubscriber, index) {
+                if (aSubscriber.get("padron") == padron) {
+                    indexFound = index;
+                }
+            });
+            if (indexFound > -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 });
 

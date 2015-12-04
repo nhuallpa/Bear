@@ -1,5 +1,6 @@
 //   Created by root on 19/11/15.
 
+
 block content
     h1 Inscribite a #{code} - #{name}
     #msgErr
@@ -9,13 +10,13 @@ block content
         input(type="hidden", name="codeSubject", id="codeSubject", maxlength="60", value="#{code}")
         div(class="form-group")
             label(for="firstname") Nombre
-            input(type="text", class="form-control", name="firstname", id="firstname", maxlength="60", placeholder="Nombre")
+            input(type="text", class="form-control", name="firstname", id="firstname", maxlength="60", placeholder="Nombre", value=firstname)
         div(class="form-group")
             label(for="lastname") Apellido
-            input(type="text", class="form-control", name="lastname", id="lastname", maxlength="60", placeholder="Apellido")
+            input(type="text", class="form-control", name="lastname", id="lastname", maxlength="60", placeholder="Apellido", value=lastname)
         div(class="form-group")
             label(for="padron") Padron
-            input(type="text", class="form-control", name="padron", id="padron", maxlength="5", placeholder="Padron")
+            input(type="text", class="form-control", name="padron", id="padron", maxlength="5", placeholder="Padron", value=padron)
 
         input(type="submit", class="btn btn-primary", value="Comfirmar")
         a(role="button", class="btn btn-default", href="/subject/#{code}/subscribers") Volver
